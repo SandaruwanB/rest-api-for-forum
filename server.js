@@ -1,9 +1,26 @@
 const express = require("express");
+const cors = require('cors');
+const http = require('http');
+const dotenv = require('dotenv');
 const app = express();
+const server = http.createServer(app);
+require('./database/connection');
 
+const { Server } = require('socket.io');
+const io = new Server(server);
 
+dotenv.config({path : './config.env'});
+
+const port = process.env.PORT || 8080;
+
+app.use(cors());
+app.use(express.json());
 app.use('/', require('./routes/routes'));
 
-app.listen(8080, ()=>{
-    console.log("App started on http://localhost:8080");
-})
+/*io.on('connection', (socket)=>{
+    console.log("user connected");
+})*/
+
+server.listen(port, ()=>{
+    console.log("App started on http://localhost:" + port);
+});

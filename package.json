@@ -17,8 +17,12 @@
   "author": "SandaruwanB",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "nodemon": "^2.0.22"
+    "http": "^0.0.1-security",
+    "mongoose": "^7.2.0",
+    "nodemon": "^2.0.22",
+    "socket.io": "^4.6.1"
   }
 }
