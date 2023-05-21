@@ -4,7 +4,6 @@ const http = require('http');
 const dotenv = require('dotenv');
 const app = express();
 const server = http.createServer(app);
-require('./database/connection');
 
 const { Server } = require('socket.io');
 const io = new Server(server);
