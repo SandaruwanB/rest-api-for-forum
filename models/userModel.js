@@ -12,13 +12,15 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true,
     },
+    authToken : {
+        type : String,
+    },
     verified : {
         type : Boolean,
         required : true,
     },
     role : {
         type : String,
-        default : "user",
         required : true,
     },
     createdAt : {

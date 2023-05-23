@@ -1,6 +1,7 @@
-const users = require('../models/userModel');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
+const users = require('../models/userModel');
 
 dotenv.config({path : '../config.env'});
 
@@ -31,17 +32,28 @@ module.exports.signIn = (req,res)=>{
 
 
 module.exports.signUp = (req,res)=>{
-    mailConfig.sendMail({
-        from : mailAddress,
-        to : 'sandaruwanbandara.dev@gmail.com',
-        subject : 'test2',
-        text : 'this is test mail',
-    }, (err, info)=>{
-        if(err){
-            console.log(err);
+    const email = req.body.email;
+    const password = req.body.password;
+
+    users.findOne({email : email}).then(result=>{   
+        if(result === null){
+            bcrypt.genSalt(10, ((err,salt)=>{
+                bcrypt.hash(password, salt, (err, hash)=>{
+                    const user = new users({
+                        email : email,
+                        password : hash,
+                        verified : false,
+                        authToken : "",
+                        role : "user",
+                    });
+                    user.save().then(()=>{
+                        res.json({result : "success"});
+                    })
+                });
+            }));
         }
         else{
-            console.log(info);
+            res.json({result : 'available'});
         }
     })
 }
@@ -52,6 +64,6 @@ module.exports.passwordReset = (req,res)=>{
 }
 
 
-module.exports.resendVerificationKey = (req,res)=>{
-
+module.exports.sendVerificationKey = (req,res)=>{
+    console.log(req.body);
 }
