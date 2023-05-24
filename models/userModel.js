@@ -12,9 +12,6 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true,
     },
-    authToken : {
-        type : String,
-    },
     verified : {
         type : Boolean,
         required : true,
@@ -22,6 +19,9 @@ const userSchema = new mongoose.Schema({
     role : {
         type : String,
         required : true,
+    },
+    verification : {
+        type : String,
     },
     createdAt : {
         type : Date,

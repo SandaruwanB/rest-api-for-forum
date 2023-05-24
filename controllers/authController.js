@@ -34,18 +34,20 @@ module.exports.signIn = (req,res)=>{
 module.exports.signUp = (req,res)=>{
     const email = req.body.email;
     const password = req.body.password;
+        const value = Math.floor(Math.random()*90000) + 10000;
 
     users.findOne({email : email}).then(result=>{   
         if(result === null){
             bcrypt.genSalt(10, ((err,salt)=>{
-                bcrypt.hash(password, salt, (err, hash)=>{
+                bcrypt.hash(password, salt, (err, hashpass)=>{                    
                     const user = new users({
                         email : email,
-                        password : hash,
+                        password : hashpass,
                         verified : false,
-                        authToken : "",
+                        verification : value,
                         role : "user",
-                    });
+                    });   
+                    sendMail(email, value);                 
                     user.save().then(()=>{
                         res.json({result : "success"});
                     })
@@ -58,12 +60,45 @@ module.exports.signUp = (req,res)=>{
     })
 }
 
+module.exports.verify = (req,res)=>{
+    const user = req.body.user;
+    const token = req.body.token;
+
+    users.findOne({email : user}).then(result=>{
+        if(result.verification === token){
+            users.findOneAndUpdate({email : user}, {$set : {verified : true}})
+            res.json({result : 'correct'});
+        }
+        else{
+            res.json({result : "invalid"});
+        }
+    })
+}
+
 
 module.exports.passwordReset = (req,res)=>{
-
+    const value = Math.floor(Math.random()*90000) + 10000;
+    res.json({value : value});
 }
 
 
 module.exports.sendVerificationKey = (req,res)=>{
     console.log(req.body);
+}
+
+
+
+const sendMail = async (email, token)=>{
+    await mailConfig.sendMail({
+        from : '"EduPro" <lpgsmartservice.org@gmail.com>',
+        to : email,
+        subject : "Verification Key",
+        text : "Verification key is " + token,
+        headers : {
+            'X-Entity-Ref-ID': 'readonlyemail',
+            'Content-Type': 'message/rfc822',
+            'Content-Disposition': 'inline',
+            'Content-Transfer-Encoding': '7bit',
+        }
+    })
 }
