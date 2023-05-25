@@ -66,8 +66,9 @@ module.exports.verify = (req,res)=>{
 
     users.findOne({email : user}).then(result=>{
         if(result.verification === token){
-            users.findOneAndUpdate({email : user}, {$set : {verified : true}})
-            res.json({result : 'correct'});
+            users.findOneAndUpdate({email : user}, {$set : {verified : true}}).then(()=>{
+                res.json({result : 'correct'});
+            });
         }
         else{
             res.json({result : "invalid"});
