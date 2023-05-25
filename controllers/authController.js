@@ -22,7 +22,19 @@ module.exports.signIn = (req,res)=>{
 
     users.findOne({email : email}).then(result=>{
         if(result){
-            res.json({result : "found"});
+            bcrypt.compare(password, result.password).then((final)=>{
+                if(final){
+                    if(result.role === "user"){
+                        res.json({result : "user"});
+                    }
+                    else{
+                        res.json({result : "admin"});
+                    }
+                }
+                else{
+                    res.json({result : 'password'});
+                }
+            });
         }
         else{
             res.json({result : "notfound"});
