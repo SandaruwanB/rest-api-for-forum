@@ -34,7 +34,7 @@ module.exports.signIn = (req,res)=>{
 module.exports.signUp = (req,res)=>{
     const email = req.body.email;
     const password = req.body.password;
-        const value = Math.floor(Math.random()*90000) + 10000;
+    const value = Math.floor(Math.random()*90000) + 10000;
 
     users.findOne({email : email}).then(result=>{   
         if(result === null){
@@ -55,7 +55,19 @@ module.exports.signUp = (req,res)=>{
             }));
         }
         else{
-            res.json({result : 'available'});
+            if(result.verified === false){
+                bcrypt.genSalt(10, ((err, salt)=>{
+                    bcrypt.hash(password, salt, (err, hashpass)=>{
+                        sendMail(email, value);
+                        users.findOneAndUpdate({email : email},{$set : {password : hashpass, verification : value}}).then(()=>{
+                            res.json({result : "success"});
+                        })
+                    })
+                }))
+            }
+            else{
+                res.json({result : "available"});
+            }
         }
     })
 }
