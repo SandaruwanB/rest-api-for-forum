@@ -22,19 +22,24 @@ module.exports.signIn = (req,res)=>{
 
     users.findOne({email : email}).then(result=>{
         if(result){
-            bcrypt.compare(password, result.password).then((final)=>{
-                if(final){
-                    if(result.role === "user"){
-                        res.json({result : "user"});
+            if(result.verified === true){
+                bcrypt.compare(password, result.password).then((final)=>{
+                    if(final){
+                        if(result.role === "user"){
+                            res.json({result : "user"});
+                        }
+                        else{
+                            res.json({result : "admin"});
+                        }
                     }
                     else{
-                        res.json({result : "admin"});
+                        res.json({result : 'password'});
                     }
-                }
-                else{
-                    res.json({result : 'password'});
-                }
-            });
+                });
+            }
+            else{
+                res.json({result : "notfound"});
+            }
         }
         else{
             res.json({result : "notfound"});
@@ -115,7 +120,7 @@ module.exports.sendVerificationKey = (req,res)=>{
 
 const sendMail = async (email, token)=>{
     await mailConfig.sendMail({
-        from : '"EduPro" <lpgsmartservice.org@gmail.com>',
+        from : '"EduPro" <edupro.org@gmail.com>',
         to : email,
         subject : "Verification Key",
         text : "Verification key is " + token,
