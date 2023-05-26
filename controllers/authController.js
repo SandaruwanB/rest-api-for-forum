@@ -120,7 +120,7 @@ module.exports.sendVerificationKey = (req,res)=>{
 
 const sendMail = async (email, token)=>{
     await mailConfig.sendMail({
-        from : '"EduPro" <edupro.org@gmail.com>',
+        from : '"EduPro" <lpgsmartservice.org@gmail.com>',
         to : email,
         subject : "Verification Key",
         text : "Verification key is " + token,
