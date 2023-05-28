@@ -54,6 +54,16 @@ const postSchema = new mongoose.Schema({
                 }
             }]
         }]
+    }],
+    reports : [{
+        reportedby : {
+            type : String,
+            require : true,
+        },
+        reason : {
+            type : String,
+            require : true,
+        }
     }]
 });
 

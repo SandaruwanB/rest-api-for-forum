@@ -13,7 +13,9 @@ const userDetailsSchema = new mongoose.Schema({
     name : {
         type : String,
         require : true,
-    }
+    },
+    category : [],
+    followers : [],
 });
 
 const userDetails = mongoose.model("userDetails", userDetailsSchema);
