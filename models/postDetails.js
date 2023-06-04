@@ -6,6 +6,11 @@ const postSchema = new mongoose.Schema({
         type : String,
         require : true,
     },
+    visibility : {
+        type : String,
+        require : true,
+        default : true,
+    },
     post : [{
         title : {
             type : String,
