@@ -14,6 +14,12 @@ const userDetailsSchema = new mongoose.Schema({
         type : String,
         require : true,
     },
+    contact : {
+        type : String,
+    },
+    address : {
+        type : String,
+    },
     category : [],
     followers : [],
 });
