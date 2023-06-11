@@ -20,6 +20,15 @@ const userDetailsSchema = new mongoose.Schema({
     address : {
         type : String,
     },
+    sex : {
+        type : String,
+    },
+    industry : {
+        type : String,
+    },
+    jobTitle : {
+        type : String,
+    },
     category : [],
     followers : [],
 });
