@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const users = require('../models/userModel');
+const userDetails = require('../models/userDetals');
 
 dotenv.config({path : '../config.env'});
 
@@ -26,4 +27,19 @@ module.exports.changePassword = (req,res)=>{
             }
         })
     })
+}
+
+module.exports.getUserCategory = (req,res)=>{
+    const email = req.body.email;
+    
+    users.findOne({email : email}).then(user=>{
+        userDetails.findOne({id : user._id}).then(details=>{
+            if(details){
+                res.json(details.category);
+            }
+            else{
+                res.json({result : 'notFound'});
+            }
+        });
+    });
 }

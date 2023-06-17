@@ -1,11 +1,14 @@
 const express = require("express");
 const route = express.Router();
 const { signIn, signUp, sendVerificationKey, passwordReset, verify } = require("../controllers/authController");
-const { changePassword } = require("../controllers/userController");
+const { changePassword, getUserCategory } = require("../controllers/userController");
+const { addCatogoryDetail, getCategory } = require("../controllers/categoryController");
 
 route.get("/", (req,res)=>{
     res.send("working");
 });
+route.get('/getcategory', getCategory);
+
 
 route.post('/login', signIn);
 route.post('/register', signUp);
@@ -13,6 +16,8 @@ route.post('/sendverify', sendVerificationKey);
 route.post('/verify', verify);
 route.post('/pass', changePassword);
 route.post('/test', passwordReset);
+route.post('/addcategory', addCatogoryDetail);
+route.post('/getusercategory', getUserCategory);
 
 
 module.exports = route;
