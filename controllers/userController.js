@@ -33,13 +33,13 @@ module.exports.getUserCategory = (req,res)=>{
     const email = req.body.email;
     
     users.findOne({email : email}).then(user=>{
-        userDetails.findOne({id : user.id}).then(details=>{
-            if(details){
-                res.json(details.category);
-            }
-            else{
-                res.json({result : 'notFound'});
-            }
-        });
+        try{
+            userDetails.find({id : user._id}).then(details=>{
+                res.json({details});
+            })
+        }
+        catch(e){
+            res.json({result : 'notFound'});
+        }
     });
 }
