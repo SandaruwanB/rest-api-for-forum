@@ -43,3 +43,20 @@ module.exports.getUserCategory = (req,res)=>{
         }
     });
 }
+
+module.exports.getFollowers = (req,res)=>{
+    const email = req.body.email;
+    
+    users.findOne({email : email}).then(user=>{
+        try {
+            userDetails.findOne({id : user._id}).then(details=>{
+                res.json({followers : details.followers})
+            }).catch(err=>{
+                res.json({result : "notFound"});
+            })
+
+        } catch (error) {
+            res.json({result : "notFound"});
+        }
+    })
+}

@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const { signIn, signUp, sendVerificationKey, passwordReset, verify } = require("../controllers/authController");
-const { changePassword, getUserCategory } = require("../controllers/userController");
+const { changePassword, getUserCategory, getFollowers } = require("../controllers/userController");
 const { addCatogoryDetail, getCategory } = require("../controllers/categoryController");
 
 route.get("/", (req,res)=>{
@@ -18,6 +18,6 @@ route.post('/pass', changePassword);
 route.post('/test', passwordReset);
 route.post('/addcategory', addCatogoryDetail);
 route.post('/getusercategory', getUserCategory);
-
+route.post('/getFollowers', getFollowers);
 
 module.exports = route;
