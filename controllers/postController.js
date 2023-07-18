@@ -16,3 +16,7 @@ module.exports.quickPost = (req,res)=>{
         res.json({result : "success"});
     });
 }
+
+module.exports.post = (req,res)=>{
+    res.json(req.body);
+}
