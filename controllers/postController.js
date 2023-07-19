@@ -18,5 +18,5 @@ module.exports.quickPost = (req,res)=>{
 }
 
 module.exports.post = (req,res)=>{
-    res.json(req.body);
+    console.log(req.body);
 }
