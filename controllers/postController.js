@@ -18,5 +18,23 @@ module.exports.quickPost = (req,res)=>{
 }
 
 module.exports.post = (req,res)=>{
-    console.log(req.body);
+    const image = req.body.image;
+    const user = req.body.user;
+    const category = req.body.category;
+    const postHeading = req.body.postHeading;
+    const textPost = req.body.textPost;
+
+    const post = new posts({
+        userid : user,
+        post : [{
+            title : postHeading,
+            category : category,
+            image : image,
+            text : textPost,
+        }]
+    });
+    post.save().then(res=>{
+        res.json({result : "success"});
+    })
+
 }
