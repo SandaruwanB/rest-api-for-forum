@@ -35,7 +35,6 @@ module.exports.post = (req,res)=>{
             text : textPost,
         }]
     });
-    console.log(image.substr(0.200));
     post.save().then(()=>{
         res.json({result : "success"});
     })
