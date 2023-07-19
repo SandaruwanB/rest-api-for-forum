@@ -3,13 +3,13 @@ const route = express.Router();
 const { signIn, signUp, sendVerificationKey, passwordReset, verify } = require("../controllers/authController");
 const { changePassword, getUserCategory, getFollowers } = require("../controllers/userController");
 const { addCatogoryDetail, getCategory } = require("../controllers/categoryController");
-const { quickPost, post } = require("../controllers/postController"); 
+const { quickPost, post, getPosts } = require("../controllers/postController"); 
 
 route.get("/", (req,res)=>{
     res.send("working");
 });
 route.get('/getcategory', getCategory);
-
+route.get('/posts', getPosts)
 
 route.post('/login', signIn);
 route.post('/register', signUp);

@@ -24,17 +24,25 @@ module.exports.post = (req,res)=>{
     const postHeading = req.body.postHeading;
     const textPost = req.body.textPost;
 
+    const buffImg = image.toString();
+
     const post = new posts({
         userid : user,
         post : [{
             title : postHeading,
             category : category,
-            image : image,
+            image : buffImg,
             text : textPost,
         }]
     });
-    post.save().then(res=>{
+    console.log(image.substr(0.200));
+    post.save().then(()=>{
         res.json({result : "success"});
     })
+}
 
+module.exports.getPosts = (req,res)=>{
+    posts.find({}).then(result=>{
+        res.json({result : result});
+    });
 }
