@@ -33,7 +33,7 @@ const postSchema = new mongoose.Schema({
         comments : [{
             commenterId : {
                 type : String,
-                require : true,
+                required : true,
             },
             comment : {
                 type : String,
