@@ -1,4 +1,5 @@
 const posts = require("../models/postDetails");
+const userDetails = require('../models/userDetals');
 
 module.exports.quickPost = (req,res)=>{
     const postText = req.body.postContent;
@@ -41,7 +42,9 @@ module.exports.post = (req,res)=>{
 }
 
 module.exports.getPosts = (req,res)=>{
-    posts.find({}).then(result=>{
-        res.json({result : result});
+    posts.find({}).sort({postDate : 'desc'}).then(result=>{
+        userDetails.find({}).then(users=>{
+            res.json({posts : result, users : users});
+        })
     });
 }

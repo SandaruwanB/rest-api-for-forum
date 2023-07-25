@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const users = require('../models/userModel');
+const userDetails = require('../models/userDetals');
 
 dotenv.config({path : '../config.env'});
 
@@ -52,6 +53,7 @@ module.exports.signUp = (req,res)=>{
     const email = req.body.email;
     const password = req.body.password;
     const value = Math.floor(Math.random()*90000) + 10000;
+    const defUserName = email.substring(0, email.indexOf("@"));
 
     users.findOne({email : email}).then(result=>{   
         if(result === null){
@@ -66,8 +68,14 @@ module.exports.signUp = (req,res)=>{
                     });   
                     sendMail(email, value);                 
                     user.save().then(()=>{
-                        res.json({result : "success"});
-                    })
+                        const details = new userDetails({
+                            id : email,
+                            name : defUserName,
+                        });
+                        details.save().then(()=>{
+                            res.json({result : "success"});
+                        });
+                    });
                 });
             }));
         }
@@ -86,7 +94,7 @@ module.exports.signUp = (req,res)=>{
                 res.json({result : "available"});
             }
         }
-    })
+    });
 }
 
 module.exports.verify = (req,res)=>{
