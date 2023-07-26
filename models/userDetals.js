@@ -31,6 +31,7 @@ const userDetailsSchema = new mongoose.Schema({
     },
     category : [],
     followers : [],
+    following : [],
 });
 
 const userDetails = mongoose.model("userDetails", userDetailsSchema);
