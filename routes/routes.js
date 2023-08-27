@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const { signIn, signUp, sendVerificationKey, passwordReset, verify } = require("../controllers/authController");
-const { changePassword, getUserCategory, getFollowers } = require("../controllers/userController");
+const { changePassword, getUserCategory, getFollowers, getUserDetails } = require("../controllers/userController");
 const { addCatogoryDetail, getCategory } = require("../controllers/categoryController");
 const { quickPost, post, getPosts } = require("../controllers/postController"); 
 
@@ -10,6 +10,7 @@ route.get("/", (req,res)=>{
 });
 route.get('/getcategory', getCategory);
 route.get('/posts', getPosts)
+route.get('/user/:id', getUserDetails);
 
 route.post('/login', signIn);
 route.post('/register', signUp);

@@ -60,3 +60,18 @@ module.exports.getFollowers = (req,res)=>{
         }
     })
 }
+
+module.exports.getUserDetails = (req,res)=>{
+    const email = req.params.id.replace(':', '');
+    
+    users.findOne({email : email}).then(user=>{
+        try {
+            userDetails.findOne({id : user.email}).then(details=>{
+                res.json({details : details, user : user})
+            });
+
+        } catch (error) {
+            res.json({details : "notFound", user : user});
+        }
+    })
+}
