@@ -1,5 +1,6 @@
 const posts = require("../models/postDetails");
 const userDetails = require('../models/userDetals');
+const category = require('../models/categories');
 
 module.exports.quickPost = (req,res)=>{
     const postText = req.body.postContent;
@@ -38,7 +39,7 @@ module.exports.post = (req,res)=>{
     });
     post.save().then(()=>{
         res.json({result : "success"});
-    })
+    });
 }
 
 module.exports.getPosts = (req,res)=>{
