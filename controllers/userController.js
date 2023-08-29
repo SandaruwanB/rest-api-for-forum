@@ -87,3 +87,13 @@ module.exports.getUserDetailsCheck = (req,res)=>{
         })
     })
 }
+
+module.exports.setDP = (req,res)=>{
+    const image = req.body.image;
+    const user = req.body.user;
+    const bufImage = image.toString();
+    userDetails.findOneAndUpdate({id : user}, {$set : {image : bufImage}}).then(()=>{
+        res.send({result : "success"});
+        console.log("updated");
+    });
+}

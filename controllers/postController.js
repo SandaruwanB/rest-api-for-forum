@@ -51,8 +51,28 @@ module.exports.getPosts = (req,res)=>{
 }
 
 module.exports.getSpecificPosts = (req,res)=>{
-    const email = req.params.id;
+    const email = req.params.id.replace(':', '');
     posts.find({userid : email}).sort({postDate : 'desc'}).then(posts=>{
         res.json({posts : posts});
     });
+}
+
+
+module.exports.setStar = (req,res)=>{
+    const starred = req.body.starred;
+    const post = req.body.post;
+
+    posts.findByIdAndUpdate(post, {$set : { starred : starred}}).then(result=>{
+        res.json({result : result});
+    })
+}
+
+module.exports.getPost = (req,res)=>{
+    const postid = req.params.id.replace(':', '');
+
+    posts.findById(postid).then(result=>{
+        userDetails.findOne({id : result.userid}).then(user=>{
+            res.json({post : result, user : user});
+        });
+    });    
 }

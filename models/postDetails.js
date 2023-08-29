@@ -29,35 +29,25 @@ const postSchema = new mongoose.Schema({
             type : Date,
             default : Date.now,
         },
-        starred : [],
-        comments : [{
-            commenterId : {
-                type : String,
-                required : true,
-            },
-            comment : {
-                type : String,
-                required : true,
-            },
-            commentDate : {
-                type : Date,
-                default : Date.now,
-            },
-            replyComment : [{
-                replyCommentorId : {
-                    type : String,
-                    require : true,
-                },
-                replyComment : {
-                    type : String,
-                    require : true,
-                },
-                replyCommentDate : {
-                    type : Date,
-                    default : Date.now,
-                }
-            }]
-        }]
+    }],
+    starred : [],
+    comments : [{
+        commenterId : {
+            type : String,
+            required : true,
+        },
+        userName : {
+            type : String,
+            require : true,
+        },
+        comment : {
+            type : String,
+            required : true,
+        },
+        commentDate : {
+            type : Date,
+            default : Date.now,
+        },
     }],
     postDate : {
         type : Date,
