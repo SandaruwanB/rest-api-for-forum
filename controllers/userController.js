@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const users = require('../models/userModel');
 const userDetails = require('../models/userDetals');
+const posts = require('../models/postDetails');
 
 dotenv.config({path : '../config.env'});
 
@@ -73,5 +74,16 @@ module.exports.getUserDetails = (req,res)=>{
         } catch (error) {
             res.json({details : "notFound", user : user});
         }
+    })
+}
+
+
+module.exports.getUserDetailsCheck = (req,res)=>{
+    const email = req.params.id.replace(':', '');
+    userDetails.findOne({id : email}).then(user=>{
+        posts.find({userid : email}).sort({postDate : 'desc'}).then(posts=>{
+            res.json({user : user, posts : posts});
+            console.log(posts);
+        })
     })
 }

@@ -49,3 +49,10 @@ module.exports.getPosts = (req,res)=>{
         })
     });
 }
+
+module.exports.getSpecificPosts = (req,res)=>{
+    const email = req.params.id;
+    posts.find({userid : email}).sort({postDate : 'desc'}).then(posts=>{
+        res.json({posts : posts});
+    });
+}
