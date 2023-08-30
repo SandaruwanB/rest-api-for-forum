@@ -97,3 +97,16 @@ module.exports.setDP = (req,res)=>{
         console.log("updated");
     });
 }
+
+module.exports.follow = (req,res)=>{
+    const followers = req.body.followed;
+    const user = req.body.user;
+    const follower = req.body.follower;
+
+    userDetails.findOneAndUpdate({id : user}, {$set : {followers : followers}}).then(()=>{
+        userDetails.findOneAndUpdate({id : follower}, {$push : {following : user}}).then(()=>{
+            res.json({result : 'success'});
+        })
+    })
+    console.log(followers);
+}

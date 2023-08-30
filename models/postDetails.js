@@ -38,7 +38,7 @@ const postSchema = new mongoose.Schema({
         },
         userName : {
             type : String,
-            require : true,
+            required : true,
         },
         comment : {
             type : String,

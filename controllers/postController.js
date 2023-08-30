@@ -76,3 +76,15 @@ module.exports.getPost = (req,res)=>{
         });
     });    
 }
+
+module.exports.comment = (req,res)=>{
+    const comment = req.body.comment;
+    const by = req.body.by;
+    const post = req.body.post;
+
+    userDetails.findOne({id : by}).then(user=>{
+        posts.findByIdAndUpdate(post, {$push : {comments : {commenterId : by, comment : comment, userName : user.name}}}).then(()=>{
+            res.json({result : "success"});
+        })
+    })
+}

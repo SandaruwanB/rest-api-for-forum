@@ -1,9 +1,9 @@
 const express = require("express");
 const route = express.Router();
 const { signIn, signUp, sendVerificationKey, passwordReset, verify } = require("../controllers/authController");
-const { changePassword, getUserCategory, getFollowers, getUserDetails, getUserDetailsCheck, setDP } = require("../controllers/userController");
+const { changePassword, getUserCategory, getFollowers, getUserDetails, getUserDetailsCheck, setDP, follow } = require("../controllers/userController");
 const { addCatogoryDetail, getCategory } = require("../controllers/categoryController");
-const { quickPost, post, getPosts, getSpecificPosts, setStar, getPost } = require("../controllers/postController"); 
+const { quickPost, post, getPosts, getSpecificPosts, setStar, getPost, comment } = require("../controllers/postController"); 
 const { getNotifications } = require("../controllers/notificationController");
 
 route.get("/", (req,res)=>{
@@ -30,5 +30,7 @@ route.post('/quickPost', quickPost);
 route.post('/post', post);
 route.post('/setdp', setDP);
 route.post('/addStar', setStar);
+route.post('/follow', follow);
+route.post('/comment', comment);
 
 module.exports = route;
