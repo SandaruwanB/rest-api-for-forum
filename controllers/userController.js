@@ -110,3 +110,69 @@ module.exports.follow = (req,res)=>{
     })
     console.log(followers);
 }
+
+module.exports.users = (req,res)=>{
+    userDetails.find({}).then(userDetails=>{
+        users.find({}).then(users=>{
+            res.json({users : users, userDetails : userDetails});
+        })
+    })
+}
+
+
+module.exports.adminAddUser = (req,res)=>{
+    const userName = req.body.userName;
+    const contact = req.body.contact;
+    const email = req.body.email;
+    const role = req.body.role;
+    const password = req.body.password;
+    const value = Math.floor(Math.random()*90000) + 10000;
+
+    users.findOne({email : email}).then(result=>{
+        if(result){
+            res.json({result : "user"});
+        }
+        else{
+            bcrypt.genSalt(10, ((err,salt)=>{
+                bcrypt.hash(password, salt, (err, hashpass)=>{                    
+                    const user = new users({
+                        email : email,
+                        password : hashpass,
+                        verified : true,
+                        verification : value,
+                        role : role,
+                    });               
+                    user.save().then(()=>{
+                        const details = new userDetails({
+                            id : email,
+                            name : userName,
+                            contact : contact
+                        });
+                        details.save().then(()=>{
+                            res.json({result : "success"});
+                        });
+                    });
+                });
+            }));
+        }
+    })
+}
+
+module.exports.userDelete = (req,res)=>{
+    const email = req.body.user;
+    users.findOneAndDelete({email : email}).then(()=>{
+        userDetails.findOneAndDelete({id : email}).then(()=>{
+            res.json({result : "User Removed Successfully"});
+        })
+    })
+}
+
+
+module.exports.getEditUser = (req,res)=>{
+    const userid = req.params.id;
+    users.findById(userid).then(user=>{
+        userDetails.findOne({id : user.email}).then(userDetails=>{
+            res.json({result : user, userDetails : userDetails});
+        })
+    })
+}

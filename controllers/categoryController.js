@@ -17,3 +17,10 @@ module.exports.getCategory = (req,res)=>{
     });
 }
 
+
+module.exports.removeCategory = (req,res)=>{
+    const id = req.body.id;
+    category.findByIdAndDelete(id).then(()=>{
+        res.json({result : 'success'});
+    })
+}

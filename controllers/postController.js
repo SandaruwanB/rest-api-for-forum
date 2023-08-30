@@ -88,3 +88,10 @@ module.exports.comment = (req,res)=>{
         })
     })
 }
+
+module.exports.removePost = (req,res)=>{
+    const id = req.body.id;
+    posts.findByIdAndDelete(id).then(()=>{
+        res.json({result : "success"});
+    })
+}
